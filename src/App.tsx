@@ -1,9 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
 
+import { db } from '@/services/firebase';
+
+import { Counter } from './features/counter/Counter';
+import logo from './logo.svg';
+
 function App() {
+  console.log(db.app.name);
   return (
     <div className="App">
       <header className="App-header">
