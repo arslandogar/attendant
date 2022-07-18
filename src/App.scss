@@ -1,0 +1,15 @@
+@import '~antd/dist/antd.css';
+
+.full-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.error-boundry {
+  flex-direction: column;
+  h2 {
+    color: red;
+  }
+}
