@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
-import { Login } from '@/pages/login';
+import { Login } from '@/pages/public';
 
 export const publicRoutes = [
   {

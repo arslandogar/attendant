@@ -15,6 +15,7 @@ export type UserProfileResponse = {
 };
 
 export type UserProfile = {
+  user_id: string;
   department: string;
   first_name: string;
   last_name: string;

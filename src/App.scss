@@ -16,6 +16,28 @@ $primary-color: #2fccb6;
   }
 }
 
+.ant-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ant-modal {
+  .ant-typography {
+    color: white;
+  }
+  .ant-modal-content {
+    background: $primary-color;
+  }
+  .ant-modal-header {
+    background: $primary-color;
+    border-bottom: none;
+  }
+  .ant-modal-body {
+    background: $primary-color;
+  }
+}
+
 .ant-btn-primary {
   background: $primary-color;
   border-color: $primary-color;
