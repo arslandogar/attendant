@@ -1,5 +1,7 @@
 @import '~antd/dist/antd.css';
 
+$primary-color: #2fccb6;
+
 .full-page-container {
   display: flex;
   justify-content: center;
@@ -12,4 +14,28 @@
   h2 {
     color: red;
   }
+}
+
+.ant-btn-primary {
+  background: $primary-color;
+  border-color: $primary-color;
+}
+
+.ant-btn-primary:hover {
+  background: $primary-color;
+  border-color: $primary-color;
+}
+
+.ant-btn-primary:focus {
+  background: $primary-color;
+  border-color: $primary-color;
+}
+
+.ant-card-head-title {
+  color: $primary-color;
+}
+
+h2.ant-typography {
+  color: $primary-color;
+  text-align: center;
 }
