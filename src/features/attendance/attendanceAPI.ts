@@ -36,26 +36,13 @@ export const addAttendanceRecordRequest = async (
       start_time: {
         stringValue: data.status === 'present' ? moment().format('HH:mm') : '',
       },
+      end_time: {
+        stringValue: '',
+      },
     },
   };
   return axios.post(
     `https://firestore.googleapis.com/v1/projects/${process.env.REACT_APP_FB_PROJECT_ID}/databases/(default)/documents/attendance/`,
-    requestData
-  );
-};
-
-export const updateAttendanceTimeoutRequest = async (
-  docId: string
-): Promise<FireStoreResponseItem<AttendanceRecord>> => {
-  const requestData = {
-    fields: {
-      end_time: {
-        stringValue: moment().format('HH:mm'),
-      },
-    },
-  };
-  return axios.patch(
-    `https://firestore.googleapis.com/v1/projects/${process.env.REACT_APP_FB_PROJECT_ID}/databases/(default)/documents/attendance/${docId}`,
     requestData
   );
 };
