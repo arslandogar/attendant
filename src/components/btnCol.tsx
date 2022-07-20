@@ -4,12 +4,20 @@ import { FC } from 'react';
 export interface BtnColProps {
   text: string;
   onClick: () => void;
+  loading?: boolean;
 }
 
-export const BtnCol: FC<BtnColProps> = ({ text, onClick }) => {
+export const BtnCol: FC<BtnColProps> = ({ text, onClick, loading }) => {
   return (
-    <Col style={{ height: '100%', width: 220 }}>
-      <Button type="primary" shape="round" block style={{ height: '100%' }} onClick={onClick}>
+    <Col style={{ height: '100%', width: 240 }}>
+      <Button
+        type="primary"
+        shape="round"
+        block
+        style={{ height: '100%' }}
+        onClick={onClick}
+        loading={loading}
+      >
         {text}
       </Button>
     </Col>

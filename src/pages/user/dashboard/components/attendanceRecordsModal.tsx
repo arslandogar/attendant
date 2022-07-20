@@ -1,9 +1,10 @@
 import { Table, DatePicker, Typography } from 'antd';
 import { Moment } from 'moment';
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { Modal } from '@/components';
-import { useAppSelector } from '@/store';
+import { getAllAttendanceList } from '@/features/attendance/attendanceSlice';
+import { useAppDispatch, useAppSelector } from '@/store';
 
 interface Props {
   visible: boolean;
@@ -11,12 +12,20 @@ interface Props {
 }
 
 export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
+  const dispatch = useAppDispatch();
   const [searchDate, setSearchDate] = useState<null | Moment>(null);
 
   const currentUser = useAppSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    dispatch(getAllAttendanceList());
+  }, [dispatch]);
+
+  const status = useAppSelector((state) => state.attendance.status);
+
   const records = useAppSelector((state) =>
-    state.attendance.records.filter((record) =>
-      record.userId === currentUser?.user_id && searchDate
+    state.attendance.allRecords.filter((record) =>
+      record.user_id === currentUser?.user_id && searchDate
         ? record.date === searchDate.format('DD/MM/YYYY')
         : true
     )
@@ -43,13 +52,15 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
       onClose={onClose}
     >
       <Table
+        loading={status === 'loading'}
         columns={[
           { title: 'Date', dataIndex: 'date', key: 'date' },
           { title: 'Status', dataIndex: 'status', key: 'status' },
         ]}
-        dataSource={records.map((record) => ({
-          ...record,
-          key: record.id,
+        dataSource={records.map((record, i) => ({
+          date: record.date,
+          status: record.status,
+          key: i.toString(),
         }))}
       />
     </Modal>

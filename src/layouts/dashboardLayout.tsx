@@ -35,7 +35,7 @@ export const DashboardLayout: FC<Props> = ({ actionBtns, floatingBtn, children }
       <Title level={2}>{`Hi! ${first_name || ''} ${last_name || ''}`}</Title>
       <Row gutter={[16, 16]} align="middle" justify="center" style={{ height: 110 }}>
         {actionBtns.map((btn: BtnColProps, index: number) => (
-          <BtnCol key={index} text={btn.text} onClick={btn.onClick} />
+          <BtnCol key={index} {...btn} />
         ))}
       </Row>
       {children}

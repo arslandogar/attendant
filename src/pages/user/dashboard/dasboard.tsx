@@ -1,28 +1,61 @@
-import { useState } from 'react';
+import moment from 'moment';
+import { useState, useEffect } from 'react';
 
-import { addAttendanceRecord } from '@/features/attendance/attendanceSlice';
+import {
+  addAttendanceRecord,
+  getAllAttendanceList,
+  updateAttendanceRecord,
+} from '@/features/attendance/attendanceSlice';
 import { DashboardLayout } from '@/layouts';
 import { useAppSelector, useAppDispatch } from '@/store';
 
 import { AttendanceRecordsModal } from './components';
 
 export const UserDasboard = () => {
-  const [isAttendanceRecordsModalVisible, setIsAttendanceRecordsModalVisible] = useState(false);
+  const currentDate = moment().format('DD/MM/YYYY');
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.auth.user);
 
-  const { user_id } = currentUser || {};
+  useEffect(() => {
+    dispatch(getAllAttendanceList());
+  }, [dispatch]);
+
+  const [isAttendanceRecordsModalVisible, setIsAttendanceRecordsModalVisible] = useState(false);
+  const currentUser = useAppSelector((state) => state.auth.user);
+  const attendance = useAppSelector((state) => state.attendance);
+
+  const { first_name, last_name, user_id } = currentUser || {};
+
+  const addAttendanceData = {
+    user_id: user_id || '',
+    first_name: first_name || '',
+    last_name: last_name || '',
+  };
+
+  const todayAttendance = attendance.allRecords.find(
+    (record) => record.user_id === user_id && record.date === currentDate
+  );
+
+  console.log(attendance.status);
+
+  const handlePunchAttendance = () => {
+    if (todayAttendance) {
+      dispatch(updateAttendanceRecord(todayAttendance.id));
+    } else {
+      dispatch(addAttendanceRecord({ ...addAttendanceData, status: 'present' }));
+    }
+  };
 
   const actionBtns = [
     {
-      text: 'Punch Attendance',
-      onClick: () =>
-        user_id ? dispatch(addAttendanceRecord({ userId: user_id, status: 'present' })) : null,
+      loading: attendance.status === 'loading',
+      text: todayAttendance ? 'Punch Out Attendance' : 'Punch Attendance',
+      onClick: handlePunchAttendance,
     },
     {
+      loading: attendance.status === 'loading',
       text: 'Apply For Leave',
       onClick: () =>
-        user_id ? dispatch(addAttendanceRecord({ userId: user_id, status: 'leave' })) : null,
+        user_id ? dispatch(addAttendanceRecord({ ...addAttendanceData, status: 'leave' })) : null,
     },
     {
       text: 'View Attendance Records',

@@ -24,7 +24,7 @@ export const axios = Axios.create({
 axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(
   (response) => {
-    if ('fields' in response.data) {
+    if ('fields' in response.data || 'documents' in response.data) {
       return fireStoreParser(response.data);
     }
     return response.data;
