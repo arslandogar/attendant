@@ -5,10 +5,11 @@ import { useState } from 'react';
 import { DashboardLayout } from '@/layouts';
 // import { useAppSelector, useAppDispatch } from '@/store';
 
-import { AvailabilityModal } from './components';
+import { AvailabilityModal, OverallStatsModal } from './components';
 
 export const AdminDasboard = () => {
   const [isAvailabilityModalVisible, setIsAvailabilityModalVisible] = useState(false);
+  const [isOverallStatsModalVisible, setIsOverallStatsModalVisible] = useState(false);
   // const dispatch = useAppDispatch();
   // const currentUser = useAppSelector((state) => state.auth.user);
 
@@ -21,7 +22,7 @@ export const AdminDasboard = () => {
     },
     {
       text: 'Overall Stats',
-      onClick: () => null,
+      onClick: () => setIsOverallStatsModalVisible(true),
     },
   ];
 
@@ -33,6 +34,10 @@ export const AdminDasboard = () => {
       <AvailabilityModal
         visible={isAvailabilityModalVisible}
         onClose={() => setIsAvailabilityModalVisible(false)}
+      />
+      <OverallStatsModal
+        visible={isOverallStatsModalVisible}
+        onClose={() => setIsOverallStatsModalVisible(false)}
       />
     </DashboardLayout>
   );
