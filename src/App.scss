@@ -1,6 +1,7 @@
 @import '~antd/dist/antd.css';
 
-$primary-color: #2fccb6;
+$primary-color: #09bfa7;
+$primary-color-dark: #20dac2;
 
 .full-page-container {
   display: flex;
@@ -28,6 +29,9 @@ $primary-color: #2fccb6;
   }
   .ant-modal-content {
     background: $primary-color;
+    // .ant-card {
+    //   background: $primary-color;
+    // }
   }
   .ant-modal-header {
     background: $primary-color;
@@ -60,4 +64,18 @@ $primary-color: #2fccb6;
 h2.ant-typography {
   color: $primary-color;
   text-align: center;
+}
+
+.user-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.ant-list-header {
+  background: $primary-color-dark;
+  text-align: center;
+  color: white;
+  margin: -24px -24px 0 -24px;
 }

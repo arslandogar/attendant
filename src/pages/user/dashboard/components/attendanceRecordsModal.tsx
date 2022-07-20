@@ -1,7 +1,8 @@
-import { Modal, Table, DatePicker, Typography, Row, Col } from 'antd';
+import { Table, DatePicker, Typography } from 'antd';
 import { Moment } from 'moment';
 import { FC, useState } from 'react';
 
+import { Modal } from '@/components';
 import { useAppSelector } from '@/store';
 
 interface Props {
@@ -21,21 +22,25 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
     )
   );
 
+  const { Title } = Typography;
+
   return (
     <Modal
-      title={
-        <ModalTitle
-          userName={`${currentUser?.first_name} ${currentUser?.last_name}`}
-          value={searchDate}
-          onChange={(val) => setSearchDate(val)}
-        />
+      title="Attendance Records"
+      titleContent={
+        <>
+          <Title level={4}>{`${currentUser?.first_name} ${currentUser?.last_name}`}</Title>
+          <DatePicker
+            onChange={(val) => setSearchDate(val)}
+            value={searchDate}
+            placeholder="Select Date"
+            format="DD/MM/YYYY"
+            allowClear={false}
+          />
+        </>
       }
-      width="80%"
       visible={visible}
-      onCancel={onClose}
-      footer={null}
-      destroyOnClose
-      centered
+      onClose={onClose}
     >
       <Table
         columns={[
@@ -48,32 +53,5 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
         }))}
       />
     </Modal>
-  );
-};
-
-interface ModalTitleProps {
-  value: null | Moment;
-  onChange: (val: null | Moment) => void;
-  userName: string;
-}
-
-const ModalTitle: FC<ModalTitleProps> = ({ userName, value, onChange }) => {
-  const { Title } = Typography;
-  return (
-    <Row align="middle" justify="center">
-      <Col>
-        <Title level={3} type="secondary">
-          Attendance Record
-        </Title>
-        <Title level={4}>{userName}</Title>
-        <DatePicker
-          onChange={onChange}
-          value={value}
-          placeholder="Select Date"
-          format="DD/MM/YYYY"
-          allowClear={false}
-        />
-      </Col>
-    </Row>
   );
 };
