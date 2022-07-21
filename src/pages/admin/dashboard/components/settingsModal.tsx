@@ -1,9 +1,13 @@
-import { DeleteFilled, EditFilled } from '@ant-design/icons';
+import { DeleteFilled, EditFilled, UserAddOutlined, ClockCircleFilled } from '@ant-design/icons';
 import { Table, Input, Space, Button } from 'antd';
 import { FC, useState } from 'react';
 
 import { Modal } from '@/components';
-import { useAppSelector } from '@/store';
+import { removeUser } from '@/features/user/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store';
+
+import { UserFormModal, UserFormModalProps } from './userFormModal';
+import { WorkHoursFormModal } from './workHoursFormModal';
 
 interface Props {
   visible: boolean;
@@ -11,26 +15,34 @@ interface Props {
 }
 
 export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
+  const dispatch = useAppDispatch();
+  const [isUserFormModalVisible, setIsUserFormModalVisible] = useState(false);
+  const [isWorkHoursFormModalVisible, setIsWorkHoursFormModalVisible] = useState(false);
+
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [initialUserValue, setInitialUserValues] =
+    useState<UserFormModalProps['initialValue']>(null);
+
   const [searchText, setSearchText] = useState('');
 
   const users = useAppSelector((state) => state.user.users);
   const stats = useAppSelector((state) => state.user.stats);
 
-  const data = users.map((user) => {
+  const filteredUsers = users.filter((user) => {
+    const { first_name, last_name } = user;
+    return `${first_name} ${last_name}`.toLowerCase().includes(searchText.toLowerCase());
+  });
+
+  const data = filteredUsers.map((user) => {
     const { first_name, last_name, user_id } = user;
     const userStats = stats.find((stat) => stat.user_id === user_id);
     return {
       key: userStats?.id,
       name: `${first_name} ${last_name}`,
-      email: `${first_name}.${last_name}@test.com`,
+      email: user.email,
       position: user.position,
       ...userStats,
     };
-  });
-
-  const filteredData = data.filter((user) => {
-    const { name } = user;
-    return name.toLowerCase().includes(searchText.toLowerCase());
   });
 
   return (
@@ -46,7 +58,19 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
       visible={visible}
       onClose={onClose}
     >
+      <Space>
+        <Button
+          icon={<UserAddOutlined />}
+          onClick={() => {
+            setIsUserFormModalVisible(true);
+            setInitialUserValues(null);
+          }}
+        >
+          Add User
+        </Button>
+      </Space>
       <Table
+        scroll={{ x: 'max-content' }}
         columns={[
           { title: 'Name', dataIndex: 'name', key: 'name' },
           { title: 'Position', dataIndex: 'position', key: 'position' },
@@ -58,17 +82,59 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
             key: 'action',
             render: (_, record) => (
               <Space size="middle">
-                <Button icon={<DeleteFilled />} size="small" danger>
+                <Button
+                  icon={<DeleteFilled />}
+                  size="small"
+                  danger
+                  onClick={() => {
+                    record.user_id ? dispatch(removeUser(record.user_id)) : null;
+                  }}
+                >
                   Delete
                 </Button>
-                <Button icon={<EditFilled />} size="small" type="primary">
+                <Button
+                  icon={<EditFilled />}
+                  size="small"
+                  type="primary"
+                  onClick={() => {
+                    setInitialUserValues(filteredUsers.find((user) => user.user_id === record.key));
+                    setIsUserFormModalVisible(true);
+                  }}
+                >
                   Edit
+                </Button>
+                <Button
+                  icon={<ClockCircleFilled />}
+                  size="small"
+                  type="primary"
+                  onClick={() => {
+                    record.user_id ? setSelectedUserId(record.user_id) : null;
+                    setIsWorkHoursFormModalVisible(true);
+                  }}
+                >
+                  Work Hours
                 </Button>
               </Space>
             ),
           },
         ]}
-        dataSource={filteredData}
+        dataSource={data}
+      />
+      <UserFormModal
+        initialValue={initialUserValue}
+        visible={isUserFormModalVisible}
+        onClose={() => {
+          setIsUserFormModalVisible(false);
+          setInitialUserValues(null);
+        }}
+      />
+      <WorkHoursFormModal
+        userId={selectedUserId}
+        visible={isWorkHoursFormModalVisible}
+        onClose={() => {
+          setIsWorkHoursFormModalVisible(false);
+          setSelectedUserId(null);
+        }}
       />
     </Modal>
   );

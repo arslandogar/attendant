@@ -15,6 +15,7 @@ export type UserProfileResponse = {
 };
 
 export type UserProfile = {
+  email: string;
   user_id: string;
   department: string;
   first_name: string;

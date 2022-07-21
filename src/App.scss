@@ -24,14 +24,14 @@ $primary-color-dark: #20dac2;
 }
 
 .ant-modal {
+  .ant-modal-title {
+    color: white;
+  }
   .ant-typography {
     color: white;
   }
   .ant-modal-content {
     background: $primary-color;
-    // .ant-card {
-    //   background: $primary-color;
-    // }
   }
   .ant-modal-header {
     background: $primary-color;
