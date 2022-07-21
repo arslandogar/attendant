@@ -5,6 +5,7 @@ import { FC, useState, useEffect } from 'react';
 import { Modal } from '@/components';
 import { getAllAttendanceList } from '@/features/attendance/attendanceSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
+import { DATE_FORMAT } from '@/utils/constants';
 
 interface Props {
   visible: boolean;
@@ -26,7 +27,7 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
   const records = useAppSelector((state) =>
     state.attendance.allRecords.filter((record) =>
       record.user_id === currentUser?.user_id && searchDate
-        ? record.date === searchDate.format('DD/MM/YYYY')
+        ? record.date === searchDate.format(DATE_FORMAT)
         : true
     )
   );
@@ -43,7 +44,7 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
             onChange={(val) => setSearchDate(val)}
             value={searchDate}
             placeholder="Select Date"
-            format="DD/MM/YYYY"
+            format={DATE_FORMAT}
             allowClear={false}
           />
         </>

@@ -8,11 +8,12 @@ import {
 } from '@/features/attendance/attendanceSlice';
 import { DashboardLayout } from '@/layouts';
 import { useAppSelector, useAppDispatch } from '@/store';
+import { DATE_FORMAT } from '@/utils/constants';
 
 import { AttendanceRecordsModal } from './components';
 
 export const UserDasboard = () => {
-  const currentDate = moment().format('DD/MM/YYYY');
+  const currentDate = moment().format(DATE_FORMAT);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

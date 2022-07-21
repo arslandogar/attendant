@@ -2,6 +2,7 @@ import moment from 'moment';
 
 import { axios } from '@/services/axios';
 import { FireStoreResponseItem, FireStoreResponseList } from '@/types';
+import { DATE_FORMAT } from '@/utils/constants';
 
 import { AttendanceRecord, AddAttendanceRecordDTO } from './types';
 
@@ -31,7 +32,7 @@ export const addAttendanceRecordRequest = async (
         stringValue: data.last_name,
       },
       date: {
-        stringValue: moment().format('DD/MM/YYYY'),
+        stringValue: moment().format(DATE_FORMAT),
       },
       start_time: {
         stringValue: data.status === 'present' ? moment().format('HH:mm') : '',

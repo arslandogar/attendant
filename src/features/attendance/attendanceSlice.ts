@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import moment from 'moment';
 
 import { RootState } from '@/store';
+import { DATE_FORMAT } from '@/utils/constants';
 
 import { addAttendanceRecordRequest, getAttendanceListRequest } from './attendanceAPI';
 import { AttendanceRecord, AddAttendanceRecordDTO } from './types';
@@ -31,7 +32,7 @@ export const addAttendanceRecord = createAsyncThunk(
     const state = getState() as RootState;
 
     const existingRecord = state.attendance.allRecords.find(
-      (record) => record.user_id === data.user_id
+      (record) => record.user_id === data.user_id && record.date === moment().format(DATE_FORMAT)
     );
     if (existingRecord) {
       notification.error({
