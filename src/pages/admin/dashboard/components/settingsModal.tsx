@@ -5,7 +5,9 @@ import { Modal } from '@/components';
 import { removeUser } from '@/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
 
-import { UserFormModal, UserFormModalProps } from './userFormModal';
+import { useFilteredUsers } from '../hooks';
+
+import { UserFormModal } from './userFormModal';
 import { WorkHoursFormModal } from './workHoursFormModal';
 
 interface Props {
@@ -15,22 +17,16 @@ interface Props {
 
 export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
   const dispatch = useAppDispatch();
+
+  const [searchText, setSearchText] = useState('');
+  const filteredUsers = useFilteredUsers(searchText);
+
   const [isUserFormModalVisible, setIsUserFormModalVisible] = useState(false);
   const [isWorkHoursFormModalVisible, setIsWorkHoursFormModalVisible] = useState(false);
 
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-  const [initialUserValue, setInitialUserValues] =
-    useState<UserFormModalProps['initialValue']>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string | null | undefined>(null);
 
-  const [searchText, setSearchText] = useState('');
-
-  const users = useAppSelector((state) => state.user.users);
   const stats = useAppSelector((state) => state.user.stats);
-
-  const filteredUsers = users.filter((user) => {
-    const { first_name, last_name } = user;
-    return `${first_name} ${last_name}`.toLowerCase().includes(searchText.toLowerCase());
-  });
 
   const data = filteredUsers.map((user) => {
     const { first_name, last_name, user_id } = user;
@@ -62,7 +58,7 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
           type="text"
           onClick={() => {
             setIsUserFormModalVisible(true);
-            setInitialUserValues(null);
+            setSelectedUserId(null);
           }}
         >
           Add User
@@ -97,7 +93,7 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
                   type="primary"
                   shape="round"
                   onClick={() => {
-                    setInitialUserValues(filteredUsers.find((user) => user.user_id === record.key));
+                    setSelectedUserId(record.user_id);
                     setIsUserFormModalVisible(true);
                   }}
                 >
@@ -122,11 +118,11 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
         size="small"
       />
       <UserFormModal
-        initialValue={initialUserValue}
+        userId={selectedUserId}
         visible={isUserFormModalVisible}
         onClose={() => {
           setIsUserFormModalVisible(false);
-          setInitialUserValues(null);
+          setSelectedUserId(null);
         }}
       />
       <WorkHoursFormModal

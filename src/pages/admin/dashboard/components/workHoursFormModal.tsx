@@ -7,7 +7,7 @@ import { updateWorkHours } from '@/features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store';
 
 export interface WorkHoursFormModalProps {
-  userId: string | null;
+  userId: string | null | undefined;
   visible: boolean;
   onClose: () => void;
 }

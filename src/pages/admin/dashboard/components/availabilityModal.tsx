@@ -2,7 +2,8 @@ import { Input, Row } from 'antd';
 import { FC, useState } from 'react';
 
 import { Modal } from '@/components';
-import { useAppSelector } from '@/store';
+
+import { useFilteredUsers } from '../hooks';
 
 import { AvailabilityList } from './availabilityList';
 
@@ -13,14 +14,7 @@ interface Props {
 
 export const AvailabilityModal: FC<Props> = ({ visible, onClose }) => {
   const [searchText, setSearchText] = useState('');
-
-  const users = useAppSelector((state) => state.user.users);
-
-  const filteredUsers = users.filter((user) => {
-    const { first_name, last_name } = user;
-    const name = `${first_name} ${last_name}`;
-    return name.toLowerCase().includes(searchText.toLowerCase());
-  });
+  const filteredUsers = useFilteredUsers(searchText);
 
   const userNames = filteredUsers.map((user) => {
     const { first_name, last_name } = user;

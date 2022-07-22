@@ -4,6 +4,8 @@ import { FC, useState } from 'react';
 import { Modal } from '@/components';
 import { useAppSelector } from '@/store';
 
+import { useFilteredUsers } from '../hooks';
+
 interface Props {
   visible: boolean;
   onClose: () => void;
@@ -11,11 +13,11 @@ interface Props {
 
 export const OverallStatsModal: FC<Props> = ({ visible, onClose }) => {
   const [searchText, setSearchText] = useState('');
+  const filteredUsers = useFilteredUsers(searchText);
 
-  const users = useAppSelector((state) => state.user.users);
   const stats = useAppSelector((state) => state.user.stats);
 
-  const data = users.map((user) => {
+  const data = filteredUsers.map((user) => {
     const { first_name, last_name, user_id } = user;
     const userStats = stats.find((stat) => stat.user_id === user_id);
     return {
@@ -23,11 +25,6 @@ export const OverallStatsModal: FC<Props> = ({ visible, onClose }) => {
       name: `${first_name} ${last_name}`,
       ...userStats,
     };
-  });
-
-  const filteredData = data.filter((user) => {
-    const { name } = user;
-    return name.toLowerCase().includes(searchText.toLowerCase());
   });
 
   return (
@@ -49,7 +46,7 @@ export const OverallStatsModal: FC<Props> = ({ visible, onClose }) => {
           { title: 'Total Hours', dataIndex: 'totalHours', key: 'totalHours' },
           { title: 'Daily Avg.', dataIndex: 'dailyAvg', key: 'dailyAvg' },
         ]}
-        dataSource={filteredData}
+        dataSource={data}
         size="small"
       />
     </Modal>

@@ -3,16 +3,19 @@ import { FC } from 'react';
 
 import { UserProfile } from '@/features/auth/types';
 import { addUser, editUser } from '@/features/user/userSlice';
-import { useAppDispatch } from '@/store';
+import { useAppSelector, useAppDispatch } from '@/store';
 
 export interface UserFormModalProps {
-  initialValue: UserProfile | null | undefined;
+  userId: string | null | undefined;
   visible: boolean;
   onClose: () => void;
 }
 
-export const UserFormModal: FC<UserFormModalProps> = ({ visible, onClose, initialValue }) => {
+export const UserFormModal: FC<UserFormModalProps> = ({ visible, onClose, userId }) => {
   const dispatch = useAppDispatch();
+  const users = useAppSelector((state) => state.user.users);
+
+  const initialValue = users.find((user) => user.user_id === userId) as UserProfile;
 
   const onFinish = (values: UserProfile) => {
     dispatch(
