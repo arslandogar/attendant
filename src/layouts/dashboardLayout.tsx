@@ -18,9 +18,12 @@ export const DashboardLayout: FC<Props> = ({ actionBtns, floatingBtn, children }
   const { first_name, last_name } = currentUser || {};
 
   return (
-    <Col className="user-dashboard-container">
+    <Col className="app-dashboard-container">
       <Row>
-        <Avatar src="https://joeschmoe.io/api/v1/random" size={160} />
+        <Col>
+          <Avatar src="https://joeschmoe.io/api/v1/random" size={160} />
+          <Title level={2}>{`Hi! ${first_name || ''} ${last_name || ''}`}</Title>
+        </Col>
         <Space align="start">
           <Button
             onClick={() => {
@@ -32,8 +35,8 @@ export const DashboardLayout: FC<Props> = ({ actionBtns, floatingBtn, children }
           {floatingBtn}
         </Space>
       </Row>
-      <Title level={2}>{`Hi! ${first_name || ''} ${last_name || ''}`}</Title>
-      <Row gutter={[16, 16]} align="middle" justify="center" style={{ height: 110 }}>
+
+      <Row gutter={[16, 16]} align="middle" justify="center" style={{ height: 95 }}>
         {actionBtns.map((btn: BtnColProps, index: number) => (
           <BtnCol key={index} {...btn} />
         ))}

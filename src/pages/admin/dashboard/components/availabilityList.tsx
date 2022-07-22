@@ -1,4 +1,4 @@
-import { Col, List, Card, Typography } from 'antd';
+import { Col, Card, Typography } from 'antd';
 import { FC } from 'react';
 
 interface Props {
@@ -7,15 +7,28 @@ interface Props {
 }
 
 export const AvailabilityList: FC<Props> = ({ title, data }) => {
-  const { Title } = Typography;
   return (
-    <Col>
-      <Card bordered={false} style={{ width: '200px', height: '300px', overflow: 'auto' }}>
-        <List
-          header={<Title level={4}>{title}</Title>}
-          dataSource={data}
-          renderItem={(item) => <List.Item>{item}</List.Item>}
-        />
+    <Col className="availability-list">
+      <Card
+        bordered={false}
+        style={{
+          background: '#09bfa7',
+          width: '200px',
+          height: '300px',
+          overflow: 'auto',
+          borderRadius: '15px',
+        }}
+      >
+        <>
+          <div className="title-container">
+            <Typography.Title level={4}>{title}</Typography.Title>
+          </div>
+          <div className="names-container">
+            {data.map((item) => (
+              <Typography.Text key={item}>{item}</Typography.Text>
+            ))}
+          </div>
+        </>
       </Card>
     </Col>
   );

@@ -1,4 +1,3 @@
-import { DeleteFilled, EditFilled, UserAddOutlined, ClockCircleFilled } from '@ant-design/icons';
 import { Table, Input, Space, Button } from 'antd';
 import { FC, useState } from 'react';
 
@@ -60,7 +59,7 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
     >
       <Space>
         <Button
-          icon={<UserAddOutlined />}
+          type="text"
           onClick={() => {
             setIsUserFormModalVisible(true);
             setInitialUserValues(null);
@@ -83,8 +82,9 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
             render: (_, record) => (
               <Space size="middle">
                 <Button
-                  icon={<DeleteFilled />}
                   size="small"
+                  type="primary"
+                  shape="round"
                   danger
                   onClick={() => {
                     record.user_id ? dispatch(removeUser(record.user_id)) : null;
@@ -93,9 +93,9 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
                   Delete
                 </Button>
                 <Button
-                  icon={<EditFilled />}
                   size="small"
                   type="primary"
+                  shape="round"
                   onClick={() => {
                     setInitialUserValues(filteredUsers.find((user) => user.user_id === record.key));
                     setIsUserFormModalVisible(true);
@@ -104,9 +104,9 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
                   Edit
                 </Button>
                 <Button
-                  icon={<ClockCircleFilled />}
                   size="small"
                   type="primary"
+                  shape="round"
                   onClick={() => {
                     record.user_id ? setSelectedUserId(record.user_id) : null;
                     setIsWorkHoursFormModalVisible(true);
@@ -119,6 +119,7 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
           },
         ]}
         dataSource={data}
+        size="small"
       />
       <UserFormModal
         initialValue={initialUserValue}

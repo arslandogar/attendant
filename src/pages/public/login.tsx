@@ -1,5 +1,4 @@
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Card, Row } from 'antd';
+import { Button, Form, Input, Typography, Row } from 'antd';
 
 import { login } from '@/features/auth/authSlice';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
@@ -13,41 +12,42 @@ export const Login: React.FC = () => {
 
   return (
     <div className="full-page-container">
-      <Card title="Sign In">
-        <Form name="login" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: 'Please input your Email!' },
-              { type: 'email', message: 'Please input a valid Email!' },
-            ]}
-          >
-            <Input addonBefore={<UserOutlined />} />
-          </Form.Item>
+      <Typography.Title level={2}>Sign In</Typography.Title>
+      <Form name="login" onFinish={onFinish}>
+        <Form.Item
+          name="email"
+          rules={[
+            { required: true, message: 'Please input your Email!' },
+            { type: 'email', message: 'Please input a valid Email!' },
+          ]}
+        >
+          <Input size="large" prefix={<i className="fa-solid fa-user"></i>} placeholder="Email" />
+        </Form.Item>
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password addonBefore={<LockOutlined />} />
-          </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+          <Input.Password
+            size="large"
+            prefix={<i className="fa-solid fa-lock"></i>}
+            placeholder="Password"
+          />
+        </Form.Item>
 
-          <Form.Item>
-            <Row justify="center">
-              <Button
-                loading={authStatus === 'loading'}
-                size="large"
-                type="primary"
-                htmlType="submit"
-              >
-                Submit
-              </Button>
-            </Row>
-          </Form.Item>
-        </Form>
-      </Card>
+        <Form.Item>
+          <Row justify="center">
+            <Button
+              loading={authStatus === 'loading'}
+              size="large"
+              type="primary"
+              htmlType="submit"
+            >
+              Login
+            </Button>
+          </Row>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

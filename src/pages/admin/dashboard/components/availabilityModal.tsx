@@ -27,6 +27,21 @@ export const AvailabilityModal: FC<Props> = ({ visible, onClose }) => {
     return `${first_name} ${last_name}`;
   });
 
+  const lists = [
+    {
+      title: 'Availability',
+      data: userNames,
+    },
+    {
+      title: 'On Leave',
+      data: userNames,
+    },
+    {
+      title: 'Absent',
+      data: userNames,
+    },
+  ];
+
   return (
     <Modal
       title="Today's Availability"
@@ -41,9 +56,9 @@ export const AvailabilityModal: FC<Props> = ({ visible, onClose }) => {
       onClose={onClose}
     >
       <Row gutter={[16, 16]} align="middle" justify="center">
-        <AvailabilityList title="Present" data={userNames} />
-        <AvailabilityList title="On Leave" data={userNames} />
-        <AvailabilityList title="Absent" data={userNames} />
+        {lists.map((list, index) => (
+          <AvailabilityList key={index} title={list.title} data={list.data} />
+        ))}
       </Row>
     </Modal>
   );

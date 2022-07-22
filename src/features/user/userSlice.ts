@@ -24,6 +24,14 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action: PayloadAction<Omit<UserProfile, 'user_id' | 'role'>>) => {
+      const emailExists = state.users.find((user) => user.email === action.payload.email);
+      if (emailExists) {
+        notification.error({
+          message: 'Error',
+          description: `Email ${action.payload.email} already exists`,
+        });
+        return;
+      }
       const user_id = String(Math.random());
       state.users.push({ ...action.payload, role: 'user', user_id });
       state.stats.push({
@@ -45,6 +53,14 @@ export const counterSlice = createSlice({
       });
     },
     editUser: (state, action: PayloadAction<UserProfile>) => {
+      const emailExists = state.users.find((user) => user.email === action.payload.email);
+      if (emailExists && emailExists.user_id !== action.payload.user_id) {
+        notification.error({
+          message: 'Error',
+          description: `Email ${action.payload.email} already exists`,
+        });
+        return;
+      }
       const index = state.users.findIndex((user) => user.user_id === action.payload.user_id);
       state.users[index] = action.payload;
       notification.success({

@@ -1,4 +1,4 @@
-import { Input, Card, Form, Button, Row, Modal } from 'antd';
+import { FormRule, Input, Card, Form, Button, Row, Modal } from 'antd';
 import { FC } from 'react';
 
 import { UserProfile } from '@/features/auth/types';
@@ -21,61 +21,85 @@ export const UserFormModal: FC<UserFormModalProps> = ({ visible, onClose, initia
     onClose();
   };
 
+  const fields = [
+    {
+      initialValue: initialValue?.first_name,
+      name: 'first_name',
+      placeHolder: 'First Name',
+      rules: [
+        {
+          required: true,
+          message: "Please input user's First Name!",
+        },
+      ],
+    },
+    {
+      initialValue: initialValue?.last_name,
+      name: 'last_name',
+      placeHolder: 'Last Name',
+      rules: [
+        {
+          required: true,
+          message: "Please input user's Last Name!",
+        },
+      ],
+    },
+    {
+      initialValue: initialValue?.department,
+      name: 'department',
+      placeHolder: 'Department',
+      rules: [
+        {
+          required: true,
+          message: "Please input user's Department!",
+        },
+      ],
+    },
+    {
+      initialValue: initialValue?.position,
+      name: 'position',
+      placeHolder: 'Position',
+      rules: [
+        {
+          required: true,
+          message: "Please input user's Position!",
+        },
+      ],
+    },
+    {
+      initialValue: initialValue?.email,
+      name: 'email',
+      placeHolder: 'Email',
+      rules: [
+        { required: true, message: "Please input user's Email!" },
+        { type: 'email', message: 'Please input a valid Email!' },
+      ] as FormRule[],
+    },
+  ];
+
   return (
     <Modal
-      title={initialValue ? 'Edit User' : 'Add User'}
+      title={initialValue ? 'Edit Info' : 'Add Employee'}
       visible={visible}
       onCancel={onClose}
       footer={null}
       destroyOnClose
       centered
+      wrapClassName="user-form-modal"
     >
       <Card>
-        <Form name="login" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
-          <Form.Item
-            initialValue={initialValue?.first_name}
-            label="First Name"
-            name="first_name"
-            rules={[{ required: true, message: "Please input user's First Name!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            initialValue={initialValue?.last_name}
-            label="Last Name"
-            name="last_name"
-            rules={[{ required: true, message: "Please input user's Last Name!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            initialValue={initialValue?.department}
-            label="Department"
-            name="department"
-            rules={[{ required: true, message: "Please input user's Department!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            initialValue={initialValue?.position}
-            label="Position"
-            name="position"
-            rules={[{ required: true, message: "Please input user's Position!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            initialValue={initialValue?.email}
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please input user's Email!" },
-              { type: 'email', message: 'Please input a valid Email!' },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+        <Form name="save-user" onFinish={onFinish}>
+          {fields.map((field) => (
+            <Form.Item
+              key={field.name}
+              initialValue={field.initialValue}
+              name={field.name}
+              rules={field.rules}
+            >
+              <Input placeholder={field.placeHolder} />
+            </Form.Item>
+          ))}
+          <Form.Item>
             <Row justify="center">
               <Button size="large" type="primary" htmlType="submit">
                 Save

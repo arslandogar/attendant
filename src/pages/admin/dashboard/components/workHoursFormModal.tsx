@@ -70,7 +70,12 @@ export const WorkHoursFormModal: FC<WorkHoursFormModalProps> = ({ visible, onClo
       centered
     >
       <Card>
-        <Form name="login" labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
+        <Form
+          name="work-hours"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+        >
           <Form.Item
             initialValue={[startTime, endTime]}
             label="Work Time"

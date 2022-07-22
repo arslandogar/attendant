@@ -50,6 +50,7 @@ export const OverallStatsModal: FC<Props> = ({ visible, onClose }) => {
           { title: 'Daily Avg.', dataIndex: 'dailyAvg', key: 'dailyAvg' },
         ]}
         dataSource={filteredData}
+        size="small"
       />
     </Modal>
   );

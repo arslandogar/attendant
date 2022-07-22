@@ -1,4 +1,4 @@
-import { Modal as AntModal, Typography, Row, Col } from 'antd';
+import { Modal as AntModal, Typography, Col, Space } from 'antd';
 import { ReactNode, FC } from 'react';
 
 interface ModalProps {
@@ -7,11 +7,20 @@ interface ModalProps {
   visible: boolean;
   onClose: () => void;
   children: ReactNode;
+  wrapClassName?: string;
 }
 
-export const Modal: FC<ModalProps> = ({ visible, onClose, title, titleContent, children }) => {
+export const Modal: FC<ModalProps> = ({
+  visible,
+  onClose,
+  title,
+  titleContent,
+  children,
+  wrapClassName,
+}) => {
   return (
     <AntModal
+      wrapClassName={wrapClassName}
       title={<ModalTitle title={title}>{titleContent}</ModalTitle>}
       width="80%"
       visible={visible}
@@ -33,13 +42,11 @@ interface ModalTitleProps {
 const ModalTitle: FC<ModalTitleProps> = ({ title, children }) => {
   const { Title } = Typography;
   return (
-    <Row align="middle" justify="center">
-      <Col>
-        <Title level={3} type="secondary">
-          {title}
-        </Title>
+    <Col>
+      <Title level={4}>{title}</Title>
+      <Space size={48} align="center" direction="vertical">
         {children}
-      </Col>
-    </Row>
+      </Space>
+    </Col>
   );
 };

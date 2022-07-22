@@ -11,10 +11,9 @@ export const BtnCol: FC<BtnColProps> = ({ text, onClick, loading }) => {
   return (
     <Col style={{ height: '100%', width: 240 }}>
       <Button
+        className="user-dashboard-button"
         type="primary"
-        shape="round"
         block
-        style={{ height: '100%' }}
         onClick={onClick}
         loading={loading}
       >

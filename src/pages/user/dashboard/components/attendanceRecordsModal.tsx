@@ -39,11 +39,12 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
       title="Attendance Records"
       titleContent={
         <>
-          <Title level={4}>{`${currentUser?.first_name} ${currentUser?.last_name}`}</Title>
+          <Title level={5}>{`${currentUser?.first_name} ${currentUser?.last_name}`}</Title>
           <DatePicker
+            size="large"
             onChange={(val) => setSearchDate(val)}
             value={searchDate}
-            placeholder="Select Date"
+            placeholder="Search by Date..."
             format={DATE_FORMAT}
             allowClear={false}
           />
@@ -51,9 +52,11 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
       }
       visible={visible}
       onClose={onClose}
+      wrapClassName="user-dashboard"
     >
       <Table
         loading={status === 'loading'}
+        size="small"
         columns={[
           { title: 'Date', dataIndex: 'date', key: 'date' },
           { title: 'Status', dataIndex: 'status', key: 'status' },
