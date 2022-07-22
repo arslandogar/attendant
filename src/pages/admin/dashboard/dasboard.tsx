@@ -32,18 +32,13 @@ export const AdminDasboard = () => {
       actionBtns={actionBtns}
       floatingBtn={<SettingOutlined onClick={() => setIsSettingsModalVisible(true)} />}
     >
-      <AvailabilityModal
-        visible={isAvailabilityModalVisible}
-        onClose={() => setIsAvailabilityModalVisible(false)}
-      />
-      <OverallStatsModal
-        visible={isOverallStatsModalVisible}
-        onClose={() => setIsOverallStatsModalVisible(false)}
-      />
-      <SettingsModal
-        visible={isSettingsModalVisible}
-        onClose={() => setIsSettingsModalVisible(false)}
-      />
+      {isAvailabilityModalVisible && (
+        <AvailabilityModal onClose={() => setIsAvailabilityModalVisible(false)} />
+      )}
+      {isOverallStatsModalVisible && (
+        <OverallStatsModal onClose={() => setIsOverallStatsModalVisible(false)} />
+      )}
+      {isSettingsModalVisible && <SettingsModal onClose={() => setIsSettingsModalVisible(false)} />}
     </DashboardLayout>
   );
 };

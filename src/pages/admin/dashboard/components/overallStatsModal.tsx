@@ -7,11 +7,10 @@ import { useAppSelector } from '@/store';
 import { useFilteredUsers } from '../hooks';
 
 interface Props {
-  visible: boolean;
   onClose: () => void;
 }
 
-export const OverallStatsModal: FC<Props> = ({ visible, onClose }) => {
+export const OverallStatsModal: FC<Props> = ({ onClose }) => {
   const [searchText, setSearchText] = useState('');
   const filteredUsers = useFilteredUsers(searchText);
 
@@ -37,7 +36,6 @@ export const OverallStatsModal: FC<Props> = ({ visible, onClose }) => {
           onChange={(e) => setSearchText(e.target.value)}
         />
       }
-      visible={visible}
       onClose={onClose}
     >
       <Table

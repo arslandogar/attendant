@@ -8,11 +8,10 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { DATE_FORMAT } from '@/utils/constants';
 
 interface Props {
-  visible: boolean;
   onClose: () => void;
 }
 
-export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
+export const AttendanceRecordsModal: FC<Props> = ({ onClose }) => {
   const dispatch = useAppDispatch();
   const [searchDate, setSearchDate] = useState<null | Moment>(null);
 
@@ -50,7 +49,6 @@ export const AttendanceRecordsModal: FC<Props> = ({ visible, onClose }) => {
           />
         </>
       }
-      visible={visible}
       onClose={onClose}
       wrapClassName="user-dashboard"
     >

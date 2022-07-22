@@ -4,14 +4,12 @@ import { ReactNode, FC } from 'react';
 interface ModalProps {
   title: string;
   titleContent: ReactNode;
-  visible: boolean;
   onClose: () => void;
   children: ReactNode;
   wrapClassName?: string;
 }
 
 export const Modal: FC<ModalProps> = ({
-  visible,
   onClose,
   title,
   titleContent,
@@ -23,9 +21,9 @@ export const Modal: FC<ModalProps> = ({
       wrapClassName={wrapClassName}
       title={<ModalTitle title={title}>{titleContent}</ModalTitle>}
       width="80%"
-      visible={visible}
       onCancel={onClose}
       footer={null}
+      visible
       destroyOnClose
       centered
     >

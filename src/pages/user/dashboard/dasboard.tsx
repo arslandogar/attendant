@@ -66,10 +66,9 @@ export const UserDasboard = () => {
 
   return (
     <DashboardLayout actionBtns={actionBtns}>
-      <AttendanceRecordsModal
-        visible={isAttendanceRecordsModalVisible}
-        onClose={() => setIsAttendanceRecordsModalVisible(false)}
-      />
+      {isAttendanceRecordsModalVisible && (
+        <AttendanceRecordsModal onClose={() => setIsAttendanceRecordsModalVisible(false)} />
+      )}
     </DashboardLayout>
   );
 };

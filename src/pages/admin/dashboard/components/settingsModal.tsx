@@ -11,11 +11,10 @@ import { UserFormModal } from './userFormModal';
 import { WorkHoursFormModal } from './workHoursFormModal';
 
 interface Props {
-  visible: boolean;
   onClose: () => void;
 }
 
-export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
+export const SettingsModal: FC<Props> = ({ onClose }) => {
   const dispatch = useAppDispatch();
 
   const [searchText, setSearchText] = useState('');
@@ -50,7 +49,6 @@ export const SettingsModal: FC<Props> = ({ visible, onClose }) => {
           onChange={(e) => setSearchText(e.target.value)}
         />
       }
-      visible={visible}
       onClose={onClose}
     >
       <Space>

@@ -8,11 +8,10 @@ import { useFilteredUsers } from '../hooks';
 import { AvailabilityList } from './availabilityList';
 
 interface Props {
-  visible: boolean;
   onClose: () => void;
 }
 
-export const AvailabilityModal: FC<Props> = ({ visible, onClose }) => {
+export const AvailabilityModal: FC<Props> = ({ onClose }) => {
   const [searchText, setSearchText] = useState('');
   const filteredUsers = useFilteredUsers(searchText);
 
@@ -46,7 +45,6 @@ export const AvailabilityModal: FC<Props> = ({ visible, onClose }) => {
           onChange={(e) => setSearchText(e.target.value)}
         />
       }
-      visible={visible}
       onClose={onClose}
     >
       <Row gutter={[16, 16]} align="middle" justify="center">
